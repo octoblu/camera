@@ -75,12 +75,9 @@
 
     //http://coderthoughts.blogspot.co.uk/2013/03/html5-video-fun.html - thanks :)
     function setup() {
-      navigator.myGetMedia = (navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia);
-        navigator.myGetMedia({ video: true }, connect, error);
-      }
+      navigator.myGetMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+      navigator.myGetMedia({ video: true }, connect, error);
+    }
 
       function connect(stream) {
         console.log("did it");

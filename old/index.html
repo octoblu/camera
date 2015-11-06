@@ -64,24 +64,22 @@ window.addEventListener("DOMContentLoaded", function() {
 			console.log("Video capture error: ", error.code);
 		};
 
-		// Put video listeners into place
-		if(navigator.getUserMedia) { // Standard
-			navigator.getUserMedia(videoObj, function(stream) {
-				video.src = stream;
-				video.play();
-			}, errBack);
-		} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-			navigator.webkitGetUserMedia(videoObj, function(stream){
-				video.src = window.webkitURL.createObjectURL(stream);
-				video.play();
-			}, errBack);
-		}
-		else if(navigator.mozGetUserMedia) { // Firefox-prefixed
-			navigator.mozGetUserMedia(videoObj, function(stream){
-				video.src = window.URL.createObjectURL(stream);
-				video.play();
-			}, errBack);
-		}
+
+		navigator.getMedia = (
+			navigator.getUserMedia       ||
+			navigator.msGetUserMedia     ||
+			navigator.mozGetUserMedia    ||
+			navigator.webkitGetUserMedia
+		);
+
+		console.log('userMedia', navigator.getMedia );
+		navigator.getMedia({ video: true }, onStream, errBack);
+
+		function onStream(stream) {
+			var vendorURL = window.URL || window.webkitURL;
+			video.src = vendorURL.createObjectURL(stream);
+			video.play();
+		};
 
 		document.getElementById("snap").addEventListener("click", function() {
 			context.drawImage(video, 0, 0, 640, 480);
@@ -94,7 +92,6 @@ window.addEventListener("DOMContentLoaded", function() {
 				}
 			};
 			conn.message(message);
-			//	console.log(message);
 		});
 
 		conn.on('message', function(data){
