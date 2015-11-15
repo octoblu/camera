@@ -4,7 +4,7 @@ angular.module('webcamDemo', ['webcam', 'ngMaterial'] )
 
   var _video = null,
   patData = null;
-  
+
   $scope.patOpts = {x: 0, y: 0, w: 25, h: 25};
   $scope.channel = {
     videoWidth: "100%",
@@ -145,40 +145,34 @@ angular.module('webcamDemo', ['webcam', 'ngMaterial'] )
       "uuid": GET.uuid,
       "token": GET.token
     });
-  }else{
-    var conn = meshblu.createConnection({});
-    conn.register({type: "webcam"}, function(result) {
-      console.log(result);
-      GET.uuid = result.uuid;
-      GET.token = result.token;
-      var url = "http://camera.octoblu.com/?uuid=" + result.uuid + "&token=" + result.token;
-      var claim = "https://app.octoblu.com/node-wizard/claim/" + result.uuid + "/" + result.token;
 
+    conn.on('ready', function(data){
+      console.log('UUID AUTHENTICATED!');
+      console.log(data);
       conn.update({
         "uuid": GET.uuid,
-        "logo": "https://s3-us-west-2.amazonaws.com/octoblu-icons/device/webcam.svg",
         "messageSchema": MESSAGE_SCHEMA
       });
 
-      $scope.claim = false;
-      $scope.useURL = url;
-      $scope.claimURL = claim;
-      $scope.apply;
+      conn.on('message', function(data){
+        sendMessage(data);
+      });
     });
+
+  }else{
+    var conn = meshblu.createConnection({});
+    $scope.showSnap = true;
+    conn.on('ready', function(data){
+    console.log('Ready', data);
+    data.type = 'device:webcam';
+    data.discoverWhitelist = [data.uuid];
+    data.messageSchema = MESSAGE_SCHEMA;
+    conn.update(data);
+    $scope.useURL   = "http://camera.octoblu.com/?uuid=" + data.uuid + "&token=" + data.token;
+    $scope.claimURL = "https://app.octoblu.com/node-wizard/claim/" + data.uuid + "/" + data.token;
+    $scope.apply;
+  });
   }
 
-
-  conn.on('ready', function(data){
-    console.log('UUID AUTHENTICATED!');
-    console.log(data);
-    conn.update({
-      "uuid": GET.uuid,
-      "messageSchema": MESSAGE_SCHEMA
-    });
-
-    conn.on('message', function(data){
-      sendMessage(data);
-    });
-  });
 
 });

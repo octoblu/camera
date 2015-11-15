@@ -51,8 +51,8 @@
 
       <md-button ng-hide="{{claim}}" class="md-raised md-warn md-hue-2" target="_blank" ng-href="{{claimURL}}">Claim Device</md-button>
       <md-button ng-hide="{{claim}}" class="md-raised md-warn md-hue-2" target="_blank" ng-href="{{useURL}}">Go here to use!</md-button>
-      <md-button class="md-raised md-primary" ng-click="makeSnapshot()">Take Snapshot</md-button>
-      <md-button class="md-raised" ng-click="showPreview = !showPreview">Show Preview</md-button>
+      <md-button ng-hide="{{showSnap}}" class="md-raised md-primary" ng-click="makeSnapshot()">Take Snapshot</md-button>
+      <md-button ng-hide="{{showSnap}}" aria-hidden="{{showSnap}}" class="md-raised" ng-click="showPreview = !showPreview">Show Preview</md-button>
 
       <div>
         <canvas id="snapshot" ng-hide="showPreview" ></canvas>
