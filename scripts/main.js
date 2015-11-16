@@ -141,6 +141,7 @@ angular.module('webcamDemo', ['webcam', 'ngMaterial'] )
   }
   if(GET.uuid){
     $scope.claim = true;
+    $scope.watchURL   = "http://camera.octoblu.com/watch.html?uuid=" + GET.uuid + "&token=" + GET.token;
     var conn = meshblu.createConnection({
       "uuid": GET.uuid,
       "token": GET.token
