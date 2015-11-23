@@ -17,7 +17,8 @@ app.controller('AppCtrl', function($scope) {
     "token": GET.token
   });
 
-
+  $scope.webRTC  = "http://camera.octoblu.com/webrtc.html?uuid=" + GET.uuid + "&token=" + GET.token;
+  $scope.apply;
 
   conn.on('ready', function(data){
     console.log('UUID AUTHENTICATED!');

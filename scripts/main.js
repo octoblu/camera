@@ -82,7 +82,7 @@ angular.module('webcamDemo', ['webcam', 'ngMaterial'] )
       var vData = getVideoData($scope.patOpts.x, $scope.patOpts.y, widthV, heightV);
       var idata = vData.ctx;
       var imageURL = vData.imageB64;
-      console.log(imageURL);
+      //console.log(imageURL);
       ctxPat.putImageData(idata, 0, 0);
 
       patData = idata;
@@ -160,19 +160,28 @@ angular.module('webcamDemo', ['webcam', 'ngMaterial'] )
       });
     });
 
+    var webrtc = new SimpleWebRTC({
+      localVideoEl: 'localVideo',
+      autoRequestMedia: true
+    });
+
+    webrtc.on('readyToCall', function () {
+      webrtc.joinRoom(GET.uuid);
+    });
+
   }else{
     var conn = meshblu.createConnection({});
     $scope.showSnap = true;
     conn.on('ready', function(data){
-    console.log('Ready', data);
-    data.type = 'device:webcam';
-    data.discoverWhitelist = [data.uuid];
-    data.messageSchema = MESSAGE_SCHEMA;
-    conn.update(data);
-    $scope.useURL   = "http://camera.octoblu.com/?uuid=" + data.uuid + "&token=" + data.token;
-    $scope.claimURL = "https://app.octoblu.com/node-wizard/claim/" + data.uuid + "/" + data.token;
-    $scope.apply;
-  });
+      console.log('Ready', data);
+      data.type = 'device:webcam';
+      data.discoverWhitelist = [data.uuid];
+      data.messageSchema = MESSAGE_SCHEMA;
+      conn.update(data);
+      $scope.useURL   = "http://camera.octoblu.com/?uuid=" + data.uuid + "&token=" + data.token;
+      $scope.claimURL = "https://app.octoblu.com/node-wizard/claim/" + data.uuid + "/" + data.token;
+      $scope.apply;
+    });
   }
 
 
