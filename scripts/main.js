@@ -166,7 +166,7 @@ angular.module('webcamDemo', ['webcam', 'ngMaterial'] )
     });
 
     webrtc.on('readyToCall', function () {
-      webrtc.joinRoom(GET.uuid);
+      webrtc.joinRoom(GET.token);
     });
 
   }else{

@@ -19,7 +19,7 @@ app.controller('AppCtrl', function($scope) {
   });
 
   webrtc.on('readyToCall', function () {
-    webrtc.joinRoom(GET.uuid);
+    webrtc.joinRoom(GET.token);
   });
 
 
