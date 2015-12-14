@@ -8,4 +8,4 @@ deploy:
   endpoint: camera.octoblu.com.s3-website-us-east-1.amazonaws.com
   region: us-east-1
   on:
-    branch: master
+    branch: angular
