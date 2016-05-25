@@ -155,9 +155,10 @@ angular.module('webcamDemo', ['webcam', 'ngMaterial'] )
         "messageSchema": MESSAGE_SCHEMA
       });
 
-      conn.on('message', function(data){
-        sendMessage(data);
-      });
+    });
+
+    conn.on('message', function(data){
+      sendMessage(data);
     });
 
     var webrtc = new SimpleWebRTC({

@@ -24,20 +24,21 @@ app.controller('AppCtrl', function($scope) {
     console.log('UUID AUTHENTICATED!');
     conn.subscribe({uuid: GET.uuid, types: ["sent"]});
 
-    conn.on('message', function(data){
+  });
 
-      var canvas = document.getElementById('canvas');
-      var context = canvas.getContext('2d');
+  conn.on('message', function(data){
 
-      var img = new Image();
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
 
-      img.onload = function() {
-        context.drawImage(this, 0, 0, canvas.width, canvas.height);
-      }
-      img.src = data.payload.pictures;
+    var img = new Image();
 
-    });
+    img.onload = function() {
+      context.drawImage(this, 0, 0, canvas.width, canvas.height);
+    }
+    img.src = data.payload.pictures;
 
   });
+
 
 });
